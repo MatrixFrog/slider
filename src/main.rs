@@ -36,28 +36,28 @@ impl App {
 
     /// Create a new randomly shuffled grid.
     fn new_grid() -> [[Option<u8>; 4]; 4] {
-        let mut numbers: [u8; 16] = array::from_fn(|i| (i + 1) as u8);
+        let mut numbers: [u8; 15] = array::from_fn(|i| (i + 1) as u8);
 
         // If you just shuffle the array, there's a 50% chance the puzzle is unsolvable.
-        // Instead, do an even number of exchanges, but leave the last number (which will become
-        // the blank) in place. According to https://en.wikipedia.org/wiki/15_puzzle#Solvability
-        // this should produce a solvable arrangement. For our even number, use 50 which should
-        // be high enough.
+        // Instead, do an even number of exchanges. According to
+        // https://en.wikipedia.org/wiki/15_puzzle#Solvability this should produce a
+        // solvable arrangement. For our even number, use 50 which should be high enough.
         for _ in 0..50 {
             let a = rng().random_range(0..15);
             let b = rng().random_range(0..15);
             numbers.swap(a, b);
         }
-        let numbers = numbers.map(|n| match n {
-            16 => None,
-            x => Some(x),
+
+        let options: [Option<u8>; 16] = array::from_fn(|n| match n {
+            15 => None,
+            n => Some(numbers[n]),
         });
 
         [
-            <[Option<u8>; 4]>::try_from(&numbers[0..4]).unwrap(),
-            <[Option<u8>; 4]>::try_from(&numbers[4..8]).unwrap(),
-            <[Option<u8>; 4]>::try_from(&numbers[8..12]).unwrap(),
-            <[Option<u8>; 4]>::try_from(&numbers[12..16]).unwrap(),
+            <[Option<u8>; 4]>::try_from(&options[0..4]).unwrap(),
+            <[Option<u8>; 4]>::try_from(&options[4..8]).unwrap(),
+            <[Option<u8>; 4]>::try_from(&options[8..12]).unwrap(),
+            <[Option<u8>; 4]>::try_from(&options[12..16]).unwrap(),
         ]
     }
 
