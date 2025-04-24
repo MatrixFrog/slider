@@ -21,8 +21,12 @@ fn main() -> io::Result<()> {
     result
 }
 
+type Cell = Option<u8>;
+type Row = [Cell; 4];
+type Grid = [Row; 4];
+
 struct App {
-    grid: [[Option<u8>; 4]; 4],
+    grid: Grid,
     exit: bool,
 }
 
@@ -35,29 +39,30 @@ impl App {
     }
 
     /// Create a new randomly shuffled grid.
-    fn new_grid() -> [[Option<u8>; 4]; 4] {
+    fn new_grid() -> Grid {
         let mut numbers: [u8; 15] = array::from_fn(|i| (i + 1) as u8);
 
         // If you just shuffle the array, there's a 50% chance the puzzle is unsolvable.
         // Instead, do an even number of exchanges. According to
         // https://en.wikipedia.org/wiki/15_puzzle#Solvability this should produce a
         // solvable arrangement. For our even number, use 50 which should be high enough.
+        let mut rng = rng();
         for _ in 0..50 {
-            let a = rng().random_range(0..15);
-            let b = rng().random_range(0..15);
+            let a = rng.random_range(0..15);
+            let b = rng.random_range(0..15);
             numbers.swap(a, b);
         }
 
-        let options: [Option<u8>; 16] = array::from_fn(|n| match n {
+        let cells: [Cell; 16] = array::from_fn(|n| match n {
             15 => None,
             n => Some(numbers[n]),
         });
 
         [
-            <[Option<u8>; 4]>::try_from(&options[0..4]).unwrap(),
-            <[Option<u8>; 4]>::try_from(&options[4..8]).unwrap(),
-            <[Option<u8>; 4]>::try_from(&options[8..12]).unwrap(),
-            <[Option<u8>; 4]>::try_from(&options[12..16]).unwrap(),
+            <Row>::try_from(&cells[0..4]).unwrap(),
+            <Row>::try_from(&cells[4..8]).unwrap(),
+            <Row>::try_from(&cells[8..12]).unwrap(),
+            <Row>::try_from(&cells[12..16]).unwrap(),
         ]
     }
 
@@ -68,7 +73,7 @@ impl App {
 
     /// Check if the puzzle is in a winning state.
     fn is_win(&self) -> bool {
-        let arr = <[Option<u8>; 16]>::try_from(self.grid.concat()).unwrap();
+        let arr = <[Cell; 16]>::try_from(self.grid.concat()).unwrap();
         for i in 0..15 {
             if arr[i] != Some(i as u8 + 1) {
                 return false;
