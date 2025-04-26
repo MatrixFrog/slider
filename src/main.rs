@@ -42,15 +42,22 @@ impl App {
     fn new_grid() -> Grid {
         let mut numbers: [u8; 15] = array::from_fn(|i| (i + 1) as u8);
 
+        let mut rng = rng();
+
         // If you just shuffle the array, there's a 50% chance the puzzle is unsolvable.
         // Instead, do an even number of exchanges. According to
         // https://en.wikipedia.org/wiki/15_puzzle#Solvability this should produce a
         // solvable arrangement. For our even number, use 50 which should be high enough.
-        let mut rng = rng();
-        for _ in 0..50 {
+        let mut swaps = 50;
+        while swaps > 0 {
             let a = rng.random_range(0..15);
             let b = rng.random_range(0..15);
+            if a == b {
+                continue;
+            }
+
             numbers.swap(a, b);
+            swaps -= 1;
         }
 
         let cells: [Cell; 16] = array::from_fn(|n| match n {
