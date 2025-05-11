@@ -2,6 +2,8 @@
 
 The classic "15 puzzle" implemented in [Ratatui].
 
+![Animation of Slider in action](/slider.gif)
+
 [Ratatui]: https://ratatui.rs
 
 ## License
