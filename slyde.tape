@@ -1,13 +1,13 @@
-# To generate slider.gif, run:
+# To generate slyde.gif, run:
 #
 #   cargo build --release
-#   vhs slider.tape
+#   vhs slyde.tape
 
-Output slider.gif
+Output slyde.gif
 
 Set Height 700
 
-Type "target/release/slider --demo"
+Type "target/release/slyde --demo"
 Enter
 
 Type "s"

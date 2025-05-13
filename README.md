@@ -1,8 +1,8 @@
-# slider
+# slyde
 
 The classic "15 puzzle" implemented in [Ratatui].
 
-![Animation of Slider in action](/slider.gif)
+![Animation of Slyde in action](/slyde.gif)
 
 [Ratatui]: https://ratatui.rs
 
