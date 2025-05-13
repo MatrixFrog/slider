@@ -2,8 +2,12 @@
 name = "slyde"
 version = "0.1.0"
 description = "Sliding puzzle in Ratatui"
+homepage = "https://github.com/MatrixFrog/slyde"
+repository = "https://github.com/MatrixFrog/slyde"
 authors = ["Tyler Breisacher <matrixfrog@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+categories = ["games"]
 edition = "2024"
 
 [dependencies]
